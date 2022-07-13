@@ -99,24 +99,32 @@ Route::get('/alunos/matricula/{matricula}', function($total) {
     );
 
     $alunos = "<ul>";
+    $cont = 0;
+    if(is_numeric($total)){
    
-   
-    if($total <= count($dados)) {
-        $cont = 0;
-       
-        foreach($dados as $nome) {
-            $cont++;
-            if($cont == $total){
-            $alunos .= "<li>$nome</li>";
-            break;
+        if($total <= count($dados)) {
+           
+        
+            foreach($dados as $nome) {
+                $cont++;
+                if($cont == $total){          
+                    $alunos .= "<li>$nome</li>";
+                break;
+                }
             }
+        }      
+        $alunos .= "</ul>";
+        
+        if($total>$cont){
+            return "<h1> Valor de matricula não encontrado </h1>";
+        }
+        else{
+        return $alunos;
         }
     }
-   
-
-    $alunos .= "</ul>";
-
-    return $alunos;
+    else{
+        return "<h2> Valor incorreto, digite o número correto da matricula </h2>";
+    }
 
 })->name('alunos.matricula')->where('total', '[0-9]+');
 
@@ -128,12 +136,26 @@ Route::get('/alunos/nome/{nome}', function( $nome) {
 
     $alunos = "<ul>";
 
-  
+    if(ctype_alpha($nome)){
         $alunos .= "<li>$nome</li>";
+   
+
+        $alunos .= "</ul>";
     
-
-    $alunos .= "</ul>";
-
-    return $alunos;
+        return $alunos;
+   
+    }
+    else{
+        return "<h2> valor invalido!</h2>";
+    }
 })->name('alunos.nome');
+
+
+// Parâmetros de Rotas - Obrigatórios
+Route::get('/alunos/nota', function() {
+   
+   
+    
+   
+})->name('alunos.nota');
 
